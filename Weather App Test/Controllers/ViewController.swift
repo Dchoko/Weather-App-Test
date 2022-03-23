@@ -16,7 +16,7 @@ class ViewController: UIViewController {
     let baseLat: Float = 55.5
     let baseLon: Float = 37.5
     
-    // todo: get different location co-ords
+    // todo:
     
     /*
      Done:
@@ -24,26 +24,9 @@ class ViewController: UIViewController {
      showing required data on list
      looping through counts
      saving data
-     show offline data is net is not available
+     show offline data if net is not available
+     get different location co-ords ()
      */
-//    var weatherData = WeatherModel_Base(dictionary: NSDictionary()) {
-//        didSet {
-//            self.weatherDataArray.append(weatherData!)
-//            if self.weatherDataArray.count >= count {
-//                // Saving data
-//                let dat = ["ascadfa", "asdfa", "asdfa", "asdfa"]
-//
-//                let theData = NSKeyedArchiver.archivedData(withRootObject: self.weatherDataArray)
-//                UserDefaults.standard.set(theData, forKey: "weatherData")
-//                let result = UserDefaults.standard.value(forKey: "weatherData")
-//                print(result!)
-//                DispatchQueue.main.async {
-//                    self.weatherTableView.reloadData()
-//                }
-//            }
-//
-//        }
-//    }
     var weatherData: WeatherModel_Base? {
         didSet {
             self.weatherDataArray.append(weatherData!)
@@ -94,25 +77,13 @@ class ViewController: UIViewController {
     func getWeatherServiceCall(lat: Float, lon: Float) {
         
         NetworkManager.sharedInstance.serviceCallGetRequest(lat: lat, lon: lon, url: "", viewController: self, completionHandler: { (data) in
-//            self.weatherData = WeatherModel_Base(dictionary: dict)
             let decoder = JSONDecoder()
             do {
                 let decoded = try decoder.decode(WeatherModel_Base.self, from: data)
-//                let userDefaults = UserDefaults.standard
-//                let encodedData = NSKeyedArchiver.archivedData(withRootObject: decoded)
-//                userDefaults.set(encodedData, forKey: "sales")
-//                
-//                let newArray = NSKeyedUnarchiver.unarchiveObject(with: userDefaults.value(forKey: "sales") as! Data) as! WeatherModel_Base
-//
-//
-//                print(newArray)
-//                self.weatherData = decoded
                 self.weatherDataArray.append(decoded)
                 if self.weatherDataArray.count >= self.count {
 //                    // Saving data
-//                    //                let dat = ["ascadfa", "asdfa", "asdfa", "asdfa"]
                 let theData = try! JSONEncoder().encode(self.weatherDataArray)
-//                    let theData = NSKeyedArchiver.archivedData(withRootObject: self.weatherDataArray)
                     UserDefaults.standard.set(theData, forKey: "weatherData")
                     
                     DispatchQueue.main.async {
